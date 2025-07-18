@@ -1,26 +1,38 @@
 import cli.cliHandler;
-import Trie.*;
 import Util.parseDictionary;
+import dictionary.Trie;
 
 public class Main {
     public static void main(String[] args) {
 
-        Trie dictionary = new Trie();
-        parseDictionary.loadDictionary(dictionary);
+        Trie trie = new Trie();
+        var Dictionary = parseDictionary.load(trie);
 
 
-        if(args.length==0){
+        if (args.length == 0) {
             cliHandler.printUsage();
         }
 
-        cliHandler cli = new cliHandler(args);
+        var cli = cliHandler.parse(args);
 
-        if(cli.hasUnknowns()){
-            cli.printUnknowns();
+        if(!cli.unknowns.isEmpty()){
+            System.out.println("Unknown arguements: " + cli.unknowns);
             return;
         }
 
 
 
+
+        switch (cli.command){
+            case HELP -> cliHandler.printUsage();
+            case INVALID -> System.out.println("Invalid arguements! use \"--help\"");
+            case SEARCH -> System.out.println("search");
+            case SUGGEST -> System.out.println("suggest");
+        }
+
+
     }
+
+
 }
+

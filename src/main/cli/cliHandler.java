@@ -1,49 +1,39 @@
 package cli;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class cliHandler {
 
-    private final HashSet<String> unknowns = new HashSet<>();
+    private static Set<String> VALID_ARGS = Set.of("--search", "--help", "--suggest");
 
+    public static cliResult parse(String[] args){
+        HashSet<String> unknowns = new HashSet<>();
 
-    private static final Set<String> VALID_ARGS = Set.of("--search", "--suggest", "--help");
-
-    public cliHandler(String[] args){
-        parse(args);
-    }
-
-    private void parse(String[] args){
         for (int i = 0; i < args.length; i++) {
             var arg = args[i];
 
             if(!arg.startsWith("--")) continue;
 
-            if(!VALID_ARGS.contains(arg)){
+            if (!VALID_ARGS.contains(arg)) {
                 unknowns.add(arg);
+                continue;
             }
 
-            switch(arg){
-                case "--search":{
-
-                }
-                case "--suggest":{
-
-                }
-                case "--help":{
-                    printUsage();
-                }
+            switch (arg){
+                case "--search":
+                    return new cliResult(CommandType.SEARCH, unknowns,
+                            (i+1<args.length)? args[i+1]:null
+                            );
+                case "--suggest":
+                    return new cliResult(CommandType.SUGGEST, unknowns,
+                            (i+1<args.length)? args[i+1]:null
+                    );
+                case "--help":
+                    return new cliResult(CommandType.HELP, unknowns, null);
             }
+
+            return new cliResult(CommandType.INVALID, unknowns, null);
         }
-    }
-
-    public boolean hasUnknowns(){
-        return unknowns.isEmpty();
-    }
-
-    public void printUnknowns(){
-        System.out.println("Unknown Arguements: " + unknowns);
     }
 
     public static void printUsage(){
