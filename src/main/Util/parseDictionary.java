@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dictionary.Trie;
 import dictionary.Word;
 
+import java.io.InputStream;
 import java.util.*;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +16,8 @@ public class parseDictionary {
     public static void load(Trie trie){
         ObjectMapper mapper = new ObjectMapper();
         try {
-            List<Word> list = mapper.readValue(Paths.get("src/resources/dictionary.json").toFile(), new TypeReference<List<Word>>() {});
+            InputStream in = parseDictionary.class.getResourceAsStream("/dictionary.json");
+            List<Word> list = mapper.readValue(in, new TypeReference<List<Word>>() {});
             for(Word word: list){
                 trie.insert(word);
             }
