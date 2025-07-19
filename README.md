@@ -7,6 +7,7 @@
 > A fast, offline dictionary CLI tool built in Java using a Trie for efficient word lookup and auto-suggestions.
 
 ---
+## Features
 
 - Word Lookup with part-of-speech and meaning
 - Works entirely offline
@@ -15,9 +16,11 @@
 - Parses dictionary data from a JSON file
 - Clean REPL-style CLI interface
 
+---
+
 ## Usage
 
-```bash
+```cmd
 Welcome to TrieDict!!
 Use the following commands:
 -search + (word) : to look-up a word in the Dictionary
