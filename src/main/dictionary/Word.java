@@ -2,9 +2,11 @@ package dictionary;
 
 public class Word {
 
-    private final String text;
-    private final String meaning;
-    private final String pos;
+    private  String text;
+    private  String meaning;
+    private  String pos;
+
+    public Word() {}
 
     public Word(String text, String meaning, String pos) {
         this.text = text;
@@ -22,6 +24,11 @@ public class Word {
 
     public String getPos() {
         return pos;
+    }
+
+    public String toString(){
+        var str = "(" + this.getPos() + ") " + this.getMeaning();
+        return str;
     }
 
 }

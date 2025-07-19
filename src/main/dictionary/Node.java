@@ -3,7 +3,7 @@ package dictionary;
 public class Node {
 
     Node[] children;
-    boolean eow;
+    Word word;
 
     public Node() {
 
@@ -12,7 +12,7 @@ public class Node {
             children[i] = null;
         }
 
-        this.eow = false;
+        this.word = null;
 
     }
 }

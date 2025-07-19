@@ -11,25 +11,25 @@ public class Trie {
         this.root = new Node();
     }
 
-    public void insert(String word){
+    public void insert(Word word){
        var x = root;
-       for(char c: word.toCharArray()){
+       for(char c: word.getText().toCharArray()){
            int idx = c - 'a';
            if(x.children[idx]==null)
                x.children[idx] = new Node();
            x = x.children[idx];
        }
-       x.eow = true;
+       x.word = word;
     }
 
-    public boolean search(String word){
+    public Word search(String word){
         var x = root;
         for(char c: word.toCharArray()){
             int idx = c - 'a';
-            if(x.children[idx]==null) return false;
+            if(x.children[idx]==null) return null;
             x  = x.children[idx];
         }
-        return x.eow;
+        return x.word;
     }
 
     public List<String> prefix(String word){
@@ -42,7 +42,7 @@ public class Trie {
         }
 
 
-
+        return null;
     }
 
 

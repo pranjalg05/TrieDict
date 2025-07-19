@@ -1,5 +1,7 @@
 package Util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dictionary.Trie;
 import dictionary.Word;
 
@@ -10,31 +12,17 @@ import java.nio.file.Paths;
 
 public class parseDictionary {
 
-    public static List<Word> load(Trie trie){
-        var list = new ArrayList<Word>();
+    public static void load(Trie trie){
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            String data = Files.readString(Paths.get("src/resources/dictionary.json"));
-            data = data.trim().substring(1, data.length()-1);
-            String[] blocks = data.split("\\},\\{");
-            for(String block: blocks){
-                String[] lines = block.split(",", 3);
-                list.add(
-                        new Word(
-                                lines[0].trim().replaceAll("\"", "").split(":", 2)[1],
-                                lines[1].trim().replaceAll("\"", "").split(":", 2)[1],
-                                lines[2].trim().replaceAll("\"", "").split(":", 2)[1]
-                        )
-                );
+            List<Word> list = mapper.readValue(Paths.get("src/resources/dictionary.json").toFile(), new TypeReference<List<Word>>() {});
+            for(Word word: list){
+                trie.insert(word);
             }
-
         } catch (IOException e) {
-            System.out.println("Error Loading Dictionary: " + e.getMessage());
-            return Collections.emptyList();
+            System.out.println("Error in parsing Dictionary " + e.getMessage());
+            return;
         }
-        for(Word word: list){
-            trie.insert(word.getText());
-        }
-        return list;
     }
 
 
